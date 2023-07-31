@@ -8,13 +8,6 @@ namespace PUParallaxLayerStackViewModel {
             return YES;
         }
     }
-
-    namespace setShowsDebugHUD {
-        void (*original)(id, SEL, BOOL);
-        void custom(id self, SEL _cmd, BOOL arg1) {
-            original(self, _cmd, YES);
-        }
-    }
 }
 
 __attribute__((constructor)) static void init() {
@@ -24,13 +17,6 @@ __attribute__((constructor)) static void init() {
             NSSelectorFromString(@"showsDebugHUD"),
             reinterpret_cast<IMP>(PUParallaxLayerStackViewModel::showsDebugHUD::custom),
             reinterpret_cast<IMP *>(PUParallaxLayerStackViewModel::showsDebugHUD::original)
-        );
-
-        MSHookMessageEx(
-            NSClassFromString(@"PUParallaxLayerStackViewModel"),
-            NSSelectorFromString(@"setShowsDebugHUD"),
-            reinterpret_cast<IMP>(PUParallaxLayerStackViewModel::setShowsDebugHUD::custom),
-            reinterpret_cast<IMP *>(PUParallaxLayerStackViewModel::setShowsDebugHUD::original)
         );
     }
 }
